@@ -10,7 +10,7 @@ List<Tarea> tareasRealizadas=new List<Tarea>();
 
 while (opcion != 5)
 {
-    Console.WriteLine("Opciones:\n1-Cargar tarea\n2-Mover tarea\n3-Buscar tarea\n4-Listar tareas pendientes\n5-Salir");
+    Console.WriteLine("Opciones:\n1-Cargar tarea\n2-Mover tarea\n3-Buscar tarea\n4-Listar tareas\n5-Salir");
     do
     {
         int.TryParse(Console.ReadLine(), out opcion);
@@ -28,6 +28,17 @@ while (opcion != 5)
             Console.WriteLine("Ingrese el id de la tarea para marcarla como realizada");
             int.TryParse(Console.ReadLine(), out busqueda);
             MoverTarea(tareasPendientes, tareasRealizadas, busqueda);
+        break;
+        case 3:
+            Console.WriteLine("Ingrese una palabra clave de la descripcion para buscar una tarea pendiente");
+            descripcion=Console.ReadLine();
+            BuscarTarea(tareasPendientes, descripcion);
+        break;
+        case 4:
+            Console.WriteLine("Tareas pendientes:");
+            ListadoTareas(tareasPendientes);
+            Console.WriteLine("Tareas realizadas:");
+            ListadoTareas(tareasRealizadas);
         break;
     }
 
@@ -57,5 +68,31 @@ void MoverTarea(List<Tarea> listaP, List<Tarea> listaR, int id)
     if (!encontrado)
     {
         Console.WriteLine("No se encuentra dicha tarea en la lista de pendientes");
+    }
+}
+
+void BuscarTarea(List<Tarea> listaP,string descripcion)
+{
+    bool encontrado=false;
+    foreach(Tarea t in listaP)
+    {
+        if (t.Descripcion.Contains(descripcion))
+        {
+            Console.WriteLine($"Tarea ID:{t.TareaID}\nDescripcion:{t.Descripcion}\nDuracion:{t.Duracion}");
+            encontrado=true;
+            break;
+        }
+    }
+    if (!encontrado)
+    {
+        Console.WriteLine("No se encuentra una tarea con esa palabra en su descripcion");
+    }
+}
+
+void ListadoTareas(List<Tarea> listaP)
+{
+    foreach(Tarea t in listaP)
+    {
+        Console.WriteLine($"Tarea ID:{t.TareaID}\nDescripcion:{t.Descripcion}\nDuracion:{t.Duracion}");
     }
 }
